@@ -662,23 +662,23 @@ def inter_subject_align_decode(input_method, dataset_params, clustering, root_fo
     atlas_name, srm_components = "basc_444", 50
     basc_444 = fetch_resample_basc(mask_gm, scale='444')
     srm_atlas = masker.transform(basc_444)[0]
-    pipeline = make_pipeline(LinearSVC(max_iter=10000)
+    pipeline = make_pipeline(LinearSVC(max_iter=10000))
     if clustering == "schaefer":
-        clustering=fetch_resample_schaeffer(mask, scale=n_pieces)
-    srm_components, srm_atlas=_check_srm_params(srm_components, srm_atlas,
+        clustering = fetch_resample_schaeffer(mask, scale=n_pieces)
+    srm_components, srm_atlas = _check_srm_params(srm_components, srm_atlas,
                                                   train.alignment, train.x)
 
     # MAKE RESULTS NAMING (including clustering if relevant)
-    method_label=find_method_label(
+    method_label = find_method_label(
         method, local_align_method, srm_components=srm_components,
         srm_atlas=srm_atlas, atlas_name=atlas_name, ha_radius=ha_radius,
         ha_sparse_radius=ha_sparse_radius, smoothing_fwhm=smoothing_fwhm)
     if method in ["pairwise", "intra_subject"]:
-        clustering_name='{}_{}'.format(clustering, n_pieces)
-        method_path=os.path.join(data.out_dir, "{}_{}_{}_{}_on_{}".format(
+        clustering_name = '{}_{}'.format(clustering, n_pieces)
+        method_path = os.path.join(data.out_dir, "{}_{}_{}_{}_on_{}".format(
             dataset_params["decoding_task"], dataset_params["roi_code"], method_label, clustering_name, dataset_params["alignment_data_label"]))
     else:
-        method_path=os.path.join(data.out_dir, "{}_{}_{}_on_{}".format(
+        method_path = os.path.join(data.out_dir, "{}_{}_{}_on_{}".format(
             dataset_params["decoding_task"], dataset_params["roi_code"], method_label, dataset_params["alignment_data_label"]))
 
     # RUN THE EXPERIMENT FOR ONE SET OF PARAMETERS (if not already cached)
@@ -699,26 +699,26 @@ def inter_subject_align_decode(input_method, dataset_params, clustering, root_fo
 
 
 def within_subject_decoding(dataset_params, root_folder, n_jobs=1):
-    data=experiments_variables(
+    data = experiments_variables(
         dataset_params["decoding_task"], root_dir=root_folder)
 
-    path_to_score=os.path.join(data.out_dir, "{}_{}_within_subject_decoding_on_{}.csv".format(
+    path_to_score = os.path.join(data.out_dir, "{}_{}_within_subject_decoding_on_{}.csv".format(
         dataset_params["decoding_task"], dataset_params["roi_code"], dataset_params["alignment_data_label"]))
     if not os.path.exists(path_to_score):
         from sklearn.model_selection import LeaveOneGroupOut, cross_val_score
-        mask=dataset_params["mask"]
-        masker=NiftiMasker(mask_img=mask).fit()
-        decoding_conditions, decoding_subjects, decoding_sessions=fetch_decoding_data(
+        mask = dataset_params["mask"]
+        masker = NiftiMasker(mask_img=mask).fit()
+        decoding_conditions, decoding_subjects, decoding_sessions = fetch_decoding_data(
             data.subjects, dataset_params["decoding_task"], data.task_dir)
 
-        scores=[]
+        scores = []
         for ims, labs, runs in zip(decoding_subjects, decoding_conditions, decoding_sessions):
-            images=np.array(masker.transform(ims))
-            decoder=LinearSVC(max_iter=10000)
-            cv=LeaveOneGroupOut()
-            score=cross_val_score(
+            images = np.array(masker.transform(ims))
+            decoder = LinearSVC(max_iter=10000)
+            cv = LeaveOneGroupOut()
+            score = cross_val_score(
                 decoder, images, np.array(labs), groups=np.array(runs), cv=cv, n_jobs=n_jobs)
             scores.append([np.mean(score)])
         with open(path_to_score, "w", newline="") as f:
-            writer=csv.writer(f)
+            writer = csv.writer(f)
             writer.writerows([scores])
