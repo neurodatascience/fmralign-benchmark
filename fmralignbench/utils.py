@@ -556,10 +556,8 @@ def fetch_align_decode_data(task, subjects, data_dir,
     '''
 
     DataSplit = namedtuple('DataSplit', ['x', 'y', 'alignment'])
-    ibc_53_tasks = opj(root_dir, 'ibc', 'cache_rest_movie_task',
+    ibc_53_tasks = opj(root_dir, 'alignment',
                        '{}_53_contrasts.nii.gz')
-    ibc_mv_task = opj(root_dir, 'ibc', 'cache_rest_movie_task',
-                      'preproc_{}_Raiders_sessions.nii.gz')
 
     decoding_conditions, decoding_subjects, _ = fetch_decoding_data(
         subjects, task, data_dir, surface=surface)
@@ -574,9 +572,6 @@ def fetch_align_decode_data(task, subjects, data_dir,
             else:
                 paths_align = np.asarray([ibc_53_tasks.format(sub)
                                           for sub in subjects])
-        elif ibc_dataset_label == 'MV':
-            paths_align = np.asarray([ibc_mv_task.format(sub)
-                                      for sub in subjects])
         n_subj = np.arange(len(subjects))
         leave_outs = n_subj
 
