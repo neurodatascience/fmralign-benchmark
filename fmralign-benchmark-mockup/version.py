@@ -52,7 +52,7 @@ REQUIRED_MODULE_METADATA = (
         'min_version': '1.1',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('fmralign', {
-        'min_version': '0.0.2',
+        'min_version': '0.0.2a0',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('pymvpa2', {
         'min_version': '2.6.5',
