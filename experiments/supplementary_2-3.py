@@ -1,8 +1,8 @@
 
 import itertools
 from joblib import Parallel, delayed
-from fmralign-benchmark-mockup.utils import WHOLEBRAIN_DATASETS, inter_subject_align_decode
-from fmralign-benchmark-mockup.conf import ROOT_FOLDER, N_JOBS
+from fmralignbench.utils import WHOLEBRAIN_DATASETS, inter_subject_align_decode
+from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 import warnings
 warnings.filterwarnings(action='once')
 

@@ -1,6 +1,6 @@
 # *- encoding: utf-8 -*-
 """
-fmralign-benchmark-mockup version, required package versions, and utilities for checking
+fmralignbench version, required package versions, and utilities for checking
 """
 # Author: Bertrand Thirion
 # License: simplified BSD
@@ -89,7 +89,7 @@ def _import_module_with_version_check(
     if version_too_old:
         message = (
             'A {module_name} version of at least {minimum_version} '
-            'is required to use fmralign-benchmark-mockup. {module_version} was found. '
+            'is required to use fmralignbench. {module_version} was found. '
             'Please upgrade {module_name}').format(
                 module_name=module_name,
                 minimum_version=minimum_version,

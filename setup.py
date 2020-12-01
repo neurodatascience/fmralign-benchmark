@@ -2,20 +2,20 @@
 from setuptools import setup, find_packages
 import os
 import sys
-descr = """A set of Python modules for functional MRI..."""
+descr = """Benchmarking pipeline for functional alignment methods using decoding"""
 
 
 def load_version():
-    """Executes fmralign-benchmark-mockup/version.py in a globals dictionary and return it.
+    """Executes fmralignbench/version.py in a globals dictionary and return it.
 
-    Note: importing fmralign-benchmark-mockup is not an option because there may be
+    Note: importing fmralignbench is not an option because there may be
     dependencies like nibabel which are not installed and
     setup.py is supposed to install them.
     """
     # load all vars into globals, otherwise
     #   the later function call using global vars doesn't work.
     globals_dict = {}
-    with open(os.path.join('fmralign-benchmark-mockup', 'version.py')) as fp:
+    with open(os.path.join('fmralignbench', 'version.py')) as fp:
         exec(fp.read(), globals_dict)
 
     return globals_dict
@@ -31,7 +31,7 @@ def is_installing():
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 _VERSION_GLOBALS = load_version()
-DISTNAME = 'fmralign-benchmark-mockup'
+DISTNAME = 'fmralignbench'
 DESCRIPTION = 'Benchmarking pipeline for functional alignment methods using decoding'
 LONG_DESCRIPTION = open('README.rst').read()
 MAINTAINER = 'Thomas Bazeille, Elizabeth Dupre, Bertrand Thirion'

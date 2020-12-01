@@ -26,7 +26,7 @@ from nilearn.plotting import plot_anat, plot_stat_map
 from ibc_public.utils_data import get_subject_session
 from matplotlib import pyplot as plt
 from mvpa2.datasets.base import Dataset
-from experiments.utils import experiments_variables, fetch_align_decode_data, fetch_resample_basc, _check_srm_params, find_method_label, fetch_decoding_data, make_coordinates_grid, check_exist, parse_score, fetch_scores, try_methods_decoding, decode,
+from fmralignbench.utils import experiments_variables, fetch_align_decode_data, fetch_resample_basc, _check_srm_params, find_method_label, fetch_decoding_data, make_coordinates_grid, check_exist, parse_score, fetch_scores, try_methods_decoding, decode,
 conjunction_inference_from_z_images
 warnings.filterwarnings(action='once')
 

@@ -18,10 +18,10 @@ from sklearn.svm import LinearSVC
 from sklearn.pipeline import make_pipeline
 from fmralign.pairwise_alignment import PairwiseAlignment
 from fmralign.alignment_methods import OptimalTransportAlignment
-from fmralign-benchmark-mockup.surf_pairwise_alignment import SurfacePairwiseAlignment
-from fmralign-benchmark-mockup.intra_subject_alignment import IntraSubjectAlignment
-from fmralign-benchmark-mockup.fastsrm import FastSRM
-from fmralign-benchmark-mockup.conf import ROOT_FOLDER, N_JOBS
+from fmralignbench.surf_pairwise_alignment import SurfacePairwiseAlignment
+from fmralignbench.intra_subject_alignment import IntraSubjectAlignment
+from fmralignbench.fastsrm import FastSRM
+from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 
 mask_gm = os.path.join('ibc/gm_mask_3mm.nii.gz')
 mask_audio_3mm = os.path.join(

@@ -6,9 +6,9 @@ import warnings
 from sklearn.svm import LinearSVC
 from sklearn.pipeline import make_pipeline
 from nilearn.surface import load_surf_data
-from fmralign-benchmark-mockup.utils import (WHOLEBRAIN_DATASETS, inter_subject_align_decode, check_input_method, try_methods_decoding, find_method_label, experiments_variables,
+from fmralignbench.utils import (WHOLEBRAIN_DATASETS, inter_subject_align_decode, check_input_method, try_methods_decoding, find_method_label, experiments_variables,
                                              fetch_align_decode_data)
-from fmralign-benchmark-mockup.conf import ROOT_FOLDER, N_JOBS
+from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 # !!!! Missing data downloader (should include alignment and decoding derivatives + clustering in suitable positions)
 warnings.filterwarnings(action='once')
 input_method = "pairwise_scaled_orthogonal"
