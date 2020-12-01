@@ -23,11 +23,11 @@ from fmralignbench.intra_subject_alignment import IntraSubjectAlignment
 from fmralignbench.fastsrm import FastSRM
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 
-mask_gm = os.path.join('ibc/gm_mask_3mm.nii.gz')
+mask_gm = os.path.join(ROOT_FOLDER, 'masks', 'gm_mask_3mm.nii.gz')
 mask_audio_3mm = os.path.join(
-    'ibc/audio_mask_resampled_3mm.nii.gz')
+    ROOT_FOLDER, 'masks', 'audio_mask_resampled_3mm.nii.gz')
 language_mask_3mm = os.path.join(
-    "ibc/left_language_mask_3mm.nii.gz")
+    ROOT_FOLDER, 'masks', 'left_language_mask_3mm.nii.gz')
 
 
 WHOLEBRAIN_DATASETS = [{"decoding_task": "ibc_rsvp", "alignment_data_label": "53_tasks",
@@ -655,7 +655,7 @@ def inter_subject_align_decode(input_method, dataset_params, clustering, root_fo
     method, pairwise_method, local_align_method = check_input_method(
         input_method)
     # define masker
-    mask = os.path.join(ROOT_FOLDER, dataset_params["mask"])
+    mask = dataset_params["mask"]
     masker = NiftiMasker(mask_img=mask, memory=data.mask_cache).fit()
     # default parameters
     ha_radius, ha_sparse_radius = 5, 3
@@ -684,7 +684,7 @@ def inter_subject_align_decode(input_method, dataset_params, clustering, root_fo
     # RUN THE EXPERIMENT FOR ONE SET OF PARAMETERS (if not already cached)
     try_methods_decoding(method=method, subjects=data.subjects,
                          train=train, test=test,
-                         pairwise_method=pairwise_method, mask=data.mask,
+                         pairwise_method=pairwise_method, mask=mask,
                          clustering=clustering, pipeline=pipeline,
                          method_path=method_path,
                          srm_components=srm_components,

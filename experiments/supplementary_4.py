@@ -7,14 +7,14 @@ from sklearn.svm import LinearSVC
 from sklearn.pipeline import make_pipeline
 from nilearn.surface import load_surf_data
 from fmralignbench.utils import (WHOLEBRAIN_DATASETS, inter_subject_align_decode, check_input_method, try_methods_decoding, find_method_label, experiments_variables,
-                                             fetch_align_decode_data)
+                                 fetch_align_decode_data)
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 # !!!! Missing data downloader (should include alignment and decoding derivatives + clustering in suitable positions)
 warnings.filterwarnings(action='once')
 input_method = "pairwise_scaled_orthogonal"
 param_set = WHOLEBRAIN_DATASETS[0]
 clustering = load_surf_data(os.path.join(
-    ROOT_FOLDER, "lh.Schaefer2018_700Parcels_17Networks_order.annot"))
+    ROOT_FOLDER, "masks", "lh.Schaefer2018_700Parcels_17Networks_order.annot"))
 
 data = experiments_variables(
     param_set["decoding_task"], root_dir=ROOT_FOLDER, surface='lh')
