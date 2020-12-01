@@ -658,8 +658,7 @@ def inter_subject_align_decode(input_method, dataset_params, clustering, root_fo
     basc_444 = fetch_resample_basc(mask_gm, scale='444')
     srm_atlas = masker.transform(basc_444)[0]
     pipeline = make_pipeline(LinearSVC(max_iter=10000))
-    if clustering == "schaefer":
-        clustering = fetch_resample_schaeffer(mask, scale=n_pieces)
+
     srm_components, srm_atlas = _check_srm_params(srm_components, srm_atlas,
                                                   train.alignment, train.x)
 
@@ -675,6 +674,10 @@ def inter_subject_align_decode(input_method, dataset_params, clustering, root_fo
     else:
         method_path = os.path.join(data.out_dir, "{}_{}_{}_on_{}".format(
             dataset_params["decoding_task"], dataset_params["roi_code"], method_label, dataset_params["alignment_data_label"]))
+    if clustering == "schaefer":
+        clustering = fetch_resample_schaeffer(mask, scale=n_pieces)
+        if method == "intra_subject":
+            n_pieces = 1000
 
     # RUN THE EXPERIMENT FOR ONE SET OF PARAMETERS (if not already cached)
     try_methods_decoding(method=method, subjects=data.subjects,
