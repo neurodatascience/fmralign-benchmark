@@ -14,7 +14,6 @@ This repository contains code for reproducing results from the recent paper:
 | Thomas Bazeille*, Elizabeth DuPre*, Jean-Baptiste Poline, & Bertrand Thirion.
 | doi: 10.1101/2020.XX.XX.XXXXXX
 
-
 Dependencies
 ------------
 
@@ -60,6 +59,25 @@ The folder ``experiments`` contains code to re-execute all of the main and
 supplemental experiments included in the manuscript.
 
 * ``experiment_1-2.py`` replicates the whole-brain and ROI-based level of analysis (170 CPU hours, 30+Go RAM)
+
 * ``experiment_3.py`` replicates the qualitative comparison of alignment methods on IBC data (a few CPU hours, few hours, 30+Go RAM)
 * ``supplementary_2-3.py`` replicates the supplemental experiments investigating the impact of parcellation and smoothing
 * ``supplementary_4.py`` replicates the supplemental experiment comparing surface- and volume-based results for piecewise Procrustes (13Go download(high-resolution data), 45 CPU hours, 60Go RAM)
+
+
+<img title="Experiment 1 replication" src="figures/experiment1.png" width=400 />
+
+<img title="Experiment 2 replication" src="figures/experiment2.png" width=400 />
+
+<img title="Experiment 3 replication" src="figures/experiment3_qualitative.png" width=400 />
+
+
+Replication of supplementary results
+
+|pic1| any text |pic2|
+
+.. |pic1| image:: figures/experiment_1_within_decoding.png
+   :width: 45%
+
+.. |pic2| image:: figures/supplementary_1_roi_minus_fullbrain.png
+   :width: 45%
