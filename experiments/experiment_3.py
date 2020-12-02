@@ -206,7 +206,7 @@ cached_methods = ["anat", "pairwise_ot_e-1",
 contrast_dir = opj(ROOT_FOLDER, "alignment")
 u = 0.25
 
-# %% First part of the pipeline : Create and save align estimators and aligned contrasts
+# First part of the pipeline : Create and save align estimators and aligned contrasts
 
 
 for input_method in methods:
@@ -245,7 +245,6 @@ for i, contrast in enumerate(contrasts):
             contrast, u, method, target_space, alignment_data))
         conj_img = masker.inverse_transform(conj)
         conj_img.to_filename(path)
-
 # %%
 fsaverage = fetch_surf_fsaverage("fsaverage5")
 fig, axes = plt.subplots(nrows=len(cached_methods) + 1, ncols=len(
@@ -254,25 +253,16 @@ fig, axes = plt.subplots(nrows=len(cached_methods) + 1, ncols=len(
 
 for j, contrast in enumerate(contrasts):
 
-    if j < 2:
-        task_name = "sounds"
-    elif j >= 2:
-        task_name = "rsvp-language"
     cut_coords = None
-    if task_name == "sounds":
+    if j < 2:
         zoom = 4.5
         offset = (0, -15, +6)
         hemi = "left"
         view = "lateral"
-    elif task_name == "rsvp-language":
+    elif j >= 2:
         zoom = 3.5
         offset = (0, -8, -6)
         hemi = "left"
-        view = "lateral"
-    else:
-        zoom = 2
-        offset = (-30, -0, -0)
-        hemi = "right"
         view = "lateral"
 
     for i, method in enumerate(cached_methods):
@@ -282,24 +272,30 @@ for j, contrast in enumerate(contrasts):
             target_space = target
 
         if "HA" in method:
-            if task_name == "sounds":
-                vmax = 20
-            elif task_name == "rsvp-language":
+            if j == 1:
+                vmax = 30
+            elif j == 0:
+                vmax = 70
+            elif j >= 2:
                 vmax = 70
             else:
                 vmax = 40
 
         elif "srm" in method:
-            if task_name == "sounds":
-                vmax = 4
-            elif task_name == "rsvp-language":
+            if j == 1:
+                vmax = 3
+            elif j == 0:
+                vmax = 6
+            elif j >= 2:
                 vmax = 6
             else:
                 vmax = 4
         else:
-            if task_name == "sounds":
-                vmax = 5
-            elif task_name == "rsvp-language":
+            if j == 1:
+                vmax = 4
+            elif j == 0:
+                vmax = 7
+            elif j >= 2:
                 vmax = 8
 
         colorbar = False
@@ -310,14 +306,13 @@ for j, contrast in enumerate(contrasts):
                      colorbar=colorbar, threshold=threshold, vmax=vmax, hemi=hemi, view=view)
         resize_surf_im(axes[i, j], zoom, offset)
 
-    if task_name == "sounds":
+    if j == 1:
         vmax = 7
-        threshold = vmax / 4
-    elif task_name == "rsvp-language":
+    elif j == 0:
+        vmax = 13
+    elif j >= 2:
         vmax = 10
-        vmax = 2
-    else:
-        vmax = 6
+    threshold = vmax / 4
     gt_ = contrasts_original[j][target_ind]
     i = len(cached_methods)
     plot_surf_im(gt_, axes[i, j], fsaverage=fsaverage,

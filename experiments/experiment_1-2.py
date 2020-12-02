@@ -11,9 +11,12 @@ input_methods = ["anat_inter_subject", "pairwise_scaled_orthogonal",
                  "pairwise_ot_e-1",  "srm", "intra_subject", "HA"]
 
 
-if N_JOBS / 10 > 1:
-    n_pipes = int(N_JOBS / 10)
-    n_jobs = N_JOBS % 10
+if N_JOBS / 15 > 1:
+    n_pipes = int(N_JOBS / 15)
+    n_jobs = 15
+else:
+    n_pipes = 1
+    n_jobs = N_JOBS
 ###### EXPERIMENT 1 #######
 
 # Inter-subject results

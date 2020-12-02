@@ -59,7 +59,7 @@ Getting started
 The folder ``experiments`` contains code to re-execute all of the main and
 supplemental experiments included in the manuscript.
 
-* ``experiment_1-2.py`` replicates the whole-brain and ROI-based level of analysis
-* ``experiment_3.py`` replicates the qualitative comparison of alignment methods on IBC data
-* ``supplementary_2-3.py`` replicates the supplemental experiments investigating the impact of parcellation and smoothin
-* ``supplementary_4.py`` replicates the supplemental experiment comparing surface- and volume-based results for piecewise Procrustes
+* ``experiment_1-2.py`` replicates the whole-brain and ROI-based level of analysis (170 CPU hours, 30+Go RAM)
+* ``experiment_3.py`` replicates the qualitative comparison of alignment methods on IBC data (a few CPU hours, few hours, 30+Go RAM)
+* ``supplementary_2-3.py`` replicates the supplemental experiments investigating the impact of parcellation and smoothing
+* ``supplementary_4.py`` replicates the supplemental experiment comparing surface- and volume-based results for piecewise Procrustes (13Go download(high-resolution data), 45 CPU hours, 60Go RAM)

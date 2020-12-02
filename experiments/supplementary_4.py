@@ -9,33 +9,37 @@ from nilearn.surface import load_surf_data
 from fmralignbench.utils import (WHOLEBRAIN_DATASETS, inter_subject_align_decode, check_input_method, try_methods_decoding, find_method_label, experiments_variables,
                                  fetch_align_decode_data)
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
-# !!!! Missing data downloader (should include alignment and decoding derivatives + clustering in suitable positions)
+from fmralignbench.plot_utils import make_supplementary4_surface_volumic_figure
+
 warnings.filterwarnings(action='once')
-input_method = "pairwise_scaled_orthogonal"
-param_set = WHOLEBRAIN_DATASETS[0]
-clustering = os.path.join(
-    ROOT_FOLDER, "masks", "lh.Schaefer2018_700Parcels_17Networks_order.annot")
 
-data = experiments_variables(
-    param_set["decoding_task"], root_dir=ROOT_FOLDER, surface='lh')
+for input_method in ["anat_inter_subject", "pairwise_scaled_orthogonal"]:
+    param_set = WHOLEBRAIN_DATASETS[0]
+    clustering = os.path.join(
+        ROOT_FOLDER, "masks", "lh.Schaefer2018_700Parcels_17Networks_order.annot")
 
+    data = experiments_variables(
+        param_set["decoding_task"], root_dir=ROOT_FOLDER, surface='lh')
 
-method, pairwise_method, local_align_method = check_input_method(input_method)
-if not os.path.isdir(data.out_dir):
-    os.mkdir(data.out_dir)
+    method, pairwise_method, local_align_method = check_input_method(
+        input_method)
+    if not os.path.isdir(data.out_dir):
+        os.mkdir(data.out_dir)
 
-train, test = fetch_align_decode_data(
-    param_set["decoding_task"], data.subjects, data.task_dir, ibc_dataset_label=param_set["alignment_data_label"], root_dir=ROOT_FOLDER, surface='lh_fullres')
-pipeline = make_pipeline(LinearSVC(max_iter=10000))
+    train, test = fetch_align_decode_data(
+        param_set["decoding_task"], data.subjects, data.task_dir, ibc_dataset_label=param_set["alignment_data_label"], root_dir=ROOT_FOLDER, surface='lh_fullres')
+    pipeline = make_pipeline(LinearSVC(max_iter=10000))
 
-method_label = find_method_label(
-    method, local_align_method)
-method_path = os.path.join(data.out_dir, "surf_{}_fullres_fullbrain_{}_on_{}".format(
-    param_set["decoding_task"], method_label, param_set["alignment_data_label"]))
+    method_label = find_method_label(
+        method, local_align_method)
+    method_path = os.path.join(data.out_dir, "surf_{}_fullres_fullbrain_{}_on_{}".format(
+        param_set["decoding_task"], method_label, param_set["alignment_data_label"]))
 
-try_methods_decoding(method=method, subjects=data.subjects,
-                     train=train, test=test,
-                     pairwise_method=pairwise_method, mask=None,
-                     clustering=clustering, pipeline=pipeline,
-                     method_path=method_path,
-                     n_jobs=N_JOBS, surface=True)
+    try_methods_decoding(method=method, subjects=data.subjects,
+                         train=train, test=test,
+                         pairwise_method=pairwise_method, mask=None,
+                         clustering=clustering, pipeline=pipeline,
+                         method_path=method_path,
+                         n_jobs=N_JOBS, surface=True)
+
+make_supplementary4_surface_volumic_figure()
