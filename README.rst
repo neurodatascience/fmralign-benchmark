@@ -1,3 +1,10 @@
+    .. -*- mode: rst -*-
+
+.. image:: https://img.shields.io/badge/License-BSD%202--Clause-orange.svg
+   :target: https://opensource.org/licenses/BSD-2-Clause
+   :alt: BSD-2-Clause License
+
+
 fmralign-benchmark-mockup
 =========================
 
@@ -11,13 +18,13 @@ This repository contains code for reproducing results from the recent paper:
 Dependencies
 ------------
 
-* fmralign
-* nibabel
-* numpy
-* matplotlib
-* pandas
-* scipy
-* scikit-learn
+* `fmralign <https://parietal-inria.github.io/fmralign-docs/>`_
+* `nibabel>=3.1 <http://nipy.org/nibabel/>`_
+* `numpy>=1.18 <http://www.numpy.org/>`_
+* `matplotlib <https://matplotlib.org/>`_
+* `pandas <https://pandas.pydata.org/>`_
+* `scipy <https://www.scipy.org/>`_
+* `scikit-learn <http://scikit-learn.org/stable/>`_
 
 Installation
 ------------
@@ -48,3 +55,11 @@ terminal and running the following commands::
 
 Getting started
 ---------------
+
+The folder ``experiments`` contains code to re-execute all of the main and
+supplemental experiments included in the manuscript.
+
+* ``experiment_1-2.py`` replicates the whole-brain and ROI-based level of analysis
+* ``experiment_3.py`` replicates the qualitative comparison of alignment methods on IBC data
+* ``supplementary_2-3.py`` replicates the supplemental experiments investigating the impact of parcellation and smoothin
+* ``supplementary_4.py`` replicates the supplemental experiment comparing surface- and volume-based results for piecewise Procrustes
