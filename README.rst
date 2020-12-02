@@ -14,8 +14,11 @@ This repository contains code for reproducing results from the recent paper:
 | Thomas Bazeille*, Elizabeth DuPre*, Jean-Baptiste Poline, & Bertrand Thirion.
 | doi: 10.1101/2020.XX.XX.XXXXXX
 
-Dependencies
-------------
+It makes code available to replicate all experiments on a subset of the data :
+the IBC dataset comprising 2 of the 5 decoding tasks studied.
+
+Requirements
+-------------
 
 * `fmralign <https://parietal-inria.github.io/fmralign-docs/>`_
 * `nibabel>=3.1 <http://nipy.org/nibabel/>`_
@@ -24,6 +27,10 @@ Dependencies
 * `pandas <https://pandas.pydata.org/>`_
 * `scipy <https://www.scipy.org/>`_
 * `scikit-learn <http://scikit-learn.org/stable/>`_
+
+Replication of the main benchmarking results already require ** significant
+computational power (around 150+CPU hours) and RAM (50+Go)**. Parallelism is provided in
+this repository to ease replication on clusters, if available.
 
 Installation
 ------------
@@ -55,6 +62,9 @@ terminal and running the following commands::
 Getting started
 ---------------
 
+** Modify the configuration file ``fmralignbench.py``** to provide a root folder
+where data will be downloaded and the number of CPU cores usable for replication.
+
 The folder ``experiments`` contains code to re-execute all of the main and
 supplemental experiments included in the manuscript.
 
@@ -73,13 +83,13 @@ Experiment 1
    :width: 400
 
 
-Experiment 1
+Experiment 2
 ---------------
 
 .. image:: figures/experiment2.png
    :width: 400
 
-Experiment 1
+Experiment 3
 ---------------
 
 .. image:: figures/experiment3_qualitative.png
