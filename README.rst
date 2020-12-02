@@ -14,7 +14,7 @@ This repository contains code for reproducing results from the recent paper:
 | Thomas Bazeille*, Elizabeth DuPre*, Jean-Baptiste Poline, & Bertrand Thirion.
 | doi: 10.1101/2020.XX.XX.XXXXXX
 
-
+|
 This module enable to replicate every main and supplementary experiments of this
 paper on the IBC dataset comprising 2 of the 5 decoding tasks studied in the paper.
 
