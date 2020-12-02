@@ -62,11 +62,19 @@ terminal and running the following commands::
 Getting started
 ---------------
 
-**Modify the configuration file ``fmralignbench.py``** to provide a root folder
+In order to make code runnable :
+
+1) Please **modify ``conf.py``** to provide a root folder
 where data will be downloaded and the number of CPU cores usable for replication.
 
-The folder ``experiments`` contains code to re-execute all of the main and
-supplemental experiments included in the manuscript.
+2) Execute a file from the ``experiments`` folder (which includes code to re-execute all of the main and
+supplemental experiments included in the manuscript)::
+
+    python experiments/experiment_1-2.py
+
+
+Experiments description
+------------------------
 
 * ``experiment_1-2.py`` replicates the whole-brain and ROI-based level of analysis (170 CPU hours, 30+Go RAM)
 
@@ -74,9 +82,7 @@ supplemental experiments included in the manuscript.
 * ``supplementary_2-3.py`` replicates the supplemental experiments investigating the impact of parcellation and smoothing
 * ``supplementary_4.py`` replicates the supplemental experiment comparing surface- and volume-based results for piecewise Procrustes (13Go download(high-resolution data), 45 CPU hours, 60Go RAM)
 
-Any file can be run as::
 
-    python experiment_1-2.py
 
 
 Replication outputs
@@ -105,7 +111,7 @@ Experiment 3
 Supplementary results
 ---------------
 
-|pic1| any text |pic2|
+|pic1| |pic2|
 
 .. image:: figures/supplementary_3.png
    :width: 200
