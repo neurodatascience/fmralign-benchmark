@@ -14,8 +14,9 @@ This repository contains code for reproducing results from the recent paper:
 | Thomas Bazeille*, Elizabeth DuPre*, Jean-Baptiste Poline, & Bertrand Thirion.
 | doi: 10.1101/2020.XX.XX.XXXXXX
 
-It makes code available to replicate all experiments on a subset of the data :
-the IBC dataset comprising 2 of the 5 decoding tasks studied.
+
+This module enable to replicate every main and supplementary experiments of this
+paper on the IBC dataset comprising 2 of the 5 decoding tasks studied in the paper.
 
 Requirements
 -------------
@@ -23,6 +24,8 @@ Requirements
 Replication of the main benchmarking results already require **significant
 computational power (around 150+CPU hours) and RAM (50+Go)**. Parallelism is provided in
 this repository to ease replication on clusters, if available.
+
+Dependencies :
 
 * `fmralign <https://parietal-inria.github.io/fmralign-docs/>`_
 * `nibabel>=3.1 <http://nipy.org/nibabel/>`_
