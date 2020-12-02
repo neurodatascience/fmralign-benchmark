@@ -28,7 +28,7 @@ Requirements
 * `scipy <https://www.scipy.org/>`_
 * `scikit-learn <http://scikit-learn.org/stable/>`_
 
-Replication of the main benchmarking results already require ** significant
+Replication of the main benchmarking results already require **significant
 computational power (around 150+CPU hours) and RAM (50+Go)**. Parallelism is provided in
 this repository to ease replication on clusters, if available.
 
@@ -62,7 +62,7 @@ terminal and running the following commands::
 Getting started
 ---------------
 
-** Modify the configuration file ``fmralignbench.py``** to provide a root folder
+**Modify the configuration file ``fmralignbench.py``** to provide a root folder
 where data will be downloaded and the number of CPU cores usable for replication.
 
 The folder ``experiments`` contains code to re-execute all of the main and
@@ -74,7 +74,13 @@ supplemental experiments included in the manuscript.
 * ``supplementary_2-3.py`` replicates the supplemental experiments investigating the impact of parcellation and smoothing
 * ``supplementary_4.py`` replicates the supplemental experiment comparing surface- and volume-based results for piecewise Procrustes (13Go download(high-resolution data), 45 CPU hours, 60Go RAM)
 
+Any file can be run as::
 
+    python experiment_1-2.py
+
+
+Replication outputs
+======================
 
 Experiment 1
 ---------------
@@ -93,12 +99,16 @@ Experiment 3
 ---------------
 
 .. image:: figures/experiment3_qualitative.png
-   :width: 400
+   :width: 200
+
 
 Supplementary results
 ---------------
 
 |pic1| any text |pic2|
+
+.. image:: figures/supplementary_3.png
+   :width: 200
 
 .. |pic1| image:: figures/experiment_1_within_decoding.png
    :width: 45%
