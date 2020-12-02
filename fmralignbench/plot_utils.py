@@ -235,6 +235,9 @@ def make_time_sub(ax, methods_times, positions, method_width, y_lims, cmap):
     pass
 
 
+experiments_variables("ibc_rsvp", root_dir=ROOT_FOLDER).out_dir
+
+
 def fetch_dataset_roi(methods, ROI, task, root_dir, add_srm=False, surf=False):
     if not ROI:
         roi_code = "fullbrain"
@@ -409,7 +412,7 @@ def make_supplementary1_roi_minus_fullbrain_figure():
     plt.rcParams["font.family"] = "sans-serif"
     plt.rc('font', family='Helvetica')
     methods_data = [[np.hstack(fetch_dataset_roi(
-        methods, True, task, ROOT_FOLDER
+        methods, True, task, ROOT_Fgit OLDER
     ) - fetch_dataset_roi(methods, False, task, ROOT_FOLDER
                           )) for task in DATASET_LIST] for methods in [["pairwise_scaled_orthogonal_schaefer_300"]]]
     cmap, colors, positions, y_lims = plot_props(1)
