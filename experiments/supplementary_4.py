@@ -13,8 +13,8 @@ from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 warnings.filterwarnings(action='once')
 input_method = "pairwise_scaled_orthogonal"
 param_set = WHOLEBRAIN_DATASETS[0]
-clustering = load_surf_data(os.path.join(
-    ROOT_FOLDER, "masks", "lh.Schaefer2018_700Parcels_17Networks_order.annot"))
+clustering = os.path.join(
+    ROOT_FOLDER, "masks", "lh.Schaefer2018_700Parcels_17Networks_order.annot")
 
 data = experiments_variables(
     param_set["decoding_task"], root_dir=ROOT_FOLDER, surface='lh')
