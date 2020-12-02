@@ -16,6 +16,7 @@ This repository contains code for reproducing results from the recent paper:
 |
 
 This module provides:
+
 * code to replicate easily all main and supplementary experiments from this paper
 * a fetcher for IBC dataset derivatives used (comprising 2 out of 5 decoding tasks studied)
 
