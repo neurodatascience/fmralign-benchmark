@@ -65,14 +65,28 @@ supplemental experiments included in the manuscript.
 * ``supplementary_4.py`` replicates the supplemental experiment comparing surface- and volume-based results for piecewise Procrustes (13Go download(high-resolution data), 45 CPU hours, 60Go RAM)
 
 
-<img title="Experiment 1 replication" src="figures/experiment1.png" width=400 />
 
-<img title="Experiment 2 replication" src="figures/experiment2.png" width=400 />
+Experiment 1
+---------------
 
-<img title="Experiment 3 replication" src="figures/experiment3_qualitative.png" width=400 />
+.. image:: figures/experiment1.png
+   :width: 400
 
 
-Replication of supplementary results
+Experiment 1
+---------------
+
+.. image:: figures/experiment2.png
+   :width: 400
+
+Experiment 1
+---------------
+
+.. image:: figures/experiment3_qualitative.png
+   :width: 400
+
+Supplementary results
+---------------
 
 |pic1| any text |pic2|
 
