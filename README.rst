@@ -13,10 +13,11 @@ This repository contains code for reproducing results from the recent paper:
 | *An empirical evaluation of functional alignment using inter-subject decoding.*
 | Thomas Bazeille*, Elizabeth DuPre*, Jean-Baptiste Poline, & Bertrand Thirion.
 | doi: 10.1101/2020.XX.XX.XXXXXX
-
 |
-This module enable to replicate every main and supplementary experiments of this
-paper on the IBC dataset comprising 2 of the 5 decoding tasks studied in the paper.
+
+This module provides:
+* code to replicate easily all main and supplementary experiments from this paper
+* a fetcher for IBC dataset derivatives used (comprising 2 out of 5 decoding tasks studied)
 
 Requirements
 -------------
