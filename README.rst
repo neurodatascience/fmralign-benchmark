@@ -64,8 +64,11 @@ Getting started
 
 In order to make code runnable :
 
-1) Please **modify ``conf.py``** to provide a root folder
-where data will be downloaded and the number of CPU cores usable for replication.
+1) Please **modify ``conf.py``** to provide :
+
+* a ``ROOT_FOLDER`` to download initial data and store derivatives
+
+* ``N_JOBS`` the number of CPU cores usable for replication.
 
 2) Execute a file from the ``experiments`` folder (which includes code to re-execute all of the main and
 supplemental experiments included in the manuscript)::
