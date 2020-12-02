@@ -4,7 +4,7 @@ from joblib import Parallel, delayed
 from fmralignbench.utils import (
     WHOLEBRAIN_DATASETS, ROI_DATASETS, inter_subject_align_decode, within_subject_decoding)
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
-from fmralignbench.plot_utils import make_bench_figure, make_within_subject_decoding_figure
+from fmralignbench.plot_utils import make_bench_figure, make_within_subject_decoding_figure, make_supplementary1_roi_minus_fullbrain_figure
 warnings.filterwarnings(action='once')
 
 input_methods = ["anat_inter_subject", "pairwise_scaled_orthogonal",
@@ -40,3 +40,7 @@ Parallel(n_jobs=n_pipes)(delayed(inter_subject_align_decode)(input_method, datas
 
 ROI = True
 make_bench_figure(ROI)
+
+### SUPPLEMENTARY 1 FIGURE ###
+
+make_supplementary1_roi_minus_fullbrain_figure()
