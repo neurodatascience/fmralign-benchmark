@@ -20,6 +20,10 @@ the IBC dataset comprising 2 of the 5 decoding tasks studied.
 Requirements
 -------------
 
+Replication of the main benchmarking results already require **significant
+computational power (around 150+CPU hours) and RAM (50+Go)**. Parallelism is provided in
+this repository to ease replication on clusters, if available.
+
 * `fmralign <https://parietal-inria.github.io/fmralign-docs/>`_
 * `nibabel>=3.1 <http://nipy.org/nibabel/>`_
 * `numpy>=1.18 <http://www.numpy.org/>`_
@@ -28,9 +32,6 @@ Requirements
 * `scipy <https://www.scipy.org/>`_
 * `scikit-learn <http://scikit-learn.org/stable/>`_
 
-Replication of the main benchmarking results already require **significant
-computational power (around 150+CPU hours) and RAM (50+Go)**. Parallelism is provided in
-this repository to ease replication on clusters, if available.
 
 Installation
 ------------
