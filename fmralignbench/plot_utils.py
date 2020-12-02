@@ -322,7 +322,7 @@ def make_smoothing_figure():
     if not os.path.isdir(os.path.join(ROOT_FOLDER, "figures")):
         os.mkdir(os.path.join(ROOT_FOLDER, "figures"))
     plt.savefig(os.path.join(ROOT_FOLDER, "figures",
-                             "supplementary_3.pdf"), bbox_inches='tight')
+                             "supplementary_3.png"), bbox_inches='tight')
     pass
 
 
@@ -366,10 +366,10 @@ def make_bench_figure(ROI):
         os.mkdir(os.path.join(ROOT_FOLDER, "figures"))
     if ROI:
         plt.savefig(os.path.join(ROOT_FOLDER, "figures",
-                                 "experiment2.pdf"), bbox_inches='tight')
+                                 "experiment2.png"), bbox_inches='tight')
     else:
         plt.savefig(os.path.join(ROOT_FOLDER, "figures",
-                                 "experiment1.pdf"), bbox_inches='tight')
+                                 "experiment1.png"), bbox_inches='tight')
     pass
 
 
@@ -401,7 +401,7 @@ def make_within_subject_decoding_figure():
     if not os.path.isdir(os.path.join(ROOT_FOLDER, "figures")):
         os.mkdir(os.path.join(ROOT_FOLDER, "figures"))
     plt.savefig(os.path.join(ROOT_FOLDER, "figures",
-                             "experiment_1_within_decoding.pdf"), bbox_inches='tight')
+                             "experiment_1_within_decoding.png"), bbox_inches='tight')
     pass
 
 
@@ -445,7 +445,7 @@ def make_supplementary1_roi_minus_fullbrain_figure():
     if not os.path.isdir(os.path.join(ROOT_FOLDER, "figures")):
         os.mkdir(os.path.join(ROOT_FOLDER, "figures"))
     plt.savefig(os.path.join(ROOT_FOLDER, "figures",
-                             "supplementary_1_roi_minus_fullbrain.pdf"), bbox_inches='tight')
+                             "supplementary_1_roi_minus_fullbrain.png"), bbox_inches='tight')
     pass
 
 
@@ -489,5 +489,5 @@ def make_supplementary4_surface_volumic_figure():
     if not os.path.isdir(os.path.join(ROOT_FOLDER, "figures")):
         os.mkdir(os.path.join(ROOT_FOLDER, "figures"))
     plt.savefig(os.path.join(ROOT_FOLDER, "figures",
-                             "supplementary_4_surfacic_vs_volumetric.pdf"), bbox_inches='tight')
+                             "supplementary_4_surfacic_vs_volumetric.png"), bbox_inches='tight')
     pass
