@@ -128,7 +128,7 @@ def align_one_target(sources_train, sources_test, target_train, target_test, met
     aligned_sources_test = []
 
     if surface == "rh":
-        from nilearn.surface import load_surf_data
+
         clustering = clustering.replace("lh", "rh")
         # clustering = load_surf_data(
         #    "/storage/store2/tbazeill/schaeffer/FreeSurfer5.3/fsaverage/label/rh.Schaefer2018_700Parcels_17Networks_order.annot")
@@ -139,6 +139,7 @@ def align_one_target(sources_train, sources_test, target_train, target_test, met
         target_train.replace("lh", "rh")
         target_test.replace("lh", "rh")
     if surface in ["rh", "lh"]:
+        from nilearn.surface import load_surf_data
         clustering = load_surf_data(clustering)
     if method == "anat_inter_subject":
         fit_start = time.process_time()

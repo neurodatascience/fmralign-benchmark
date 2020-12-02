@@ -38,4 +38,4 @@ try_methods_decoding(method=method, subjects=data.subjects,
                      pairwise_method=pairwise_method, mask=None,
                      clustering=clustering, pipeline=pipeline,
                      method_path=method_path,
-                     n_jobs=15, surface=True)
+                     n_jobs=N_JOBS, surface=True)
