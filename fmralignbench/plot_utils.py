@@ -482,7 +482,7 @@ def make_supplementary4_surface_volumic_figure():
     labels = ["Cortical Surface (fsaverage7)", "Volumetric (3mm)"]
     plt.yticks(positions, labels, fontsize=14, fontname="sans-serif")
     legends_points = []
-    for dataset, c in zip(DATASET_LIST, colors):
+    for dataset, c in zip([task], colors):
         legends_points.append(Line2D([0], [0], marker='o', ls="", color=c, label=DATASETS_LABELS[dataset],
                                      markerfacecolor=c, markersize=10))
     legends_points.reverse()
