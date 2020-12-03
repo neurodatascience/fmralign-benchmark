@@ -412,7 +412,7 @@ def make_supplementary1_roi_minus_fullbrain_figure():
     plt.rcParams["font.family"] = "sans-serif"
     plt.rc('font', family='Helvetica')
     methods_data = [[np.hstack(fetch_dataset_roi(
-        methods, True, task, ROOT_Fgit OLDER
+        methods, True, task, ROOT_FOLDER
     ) - fetch_dataset_roi(methods, False, task, ROOT_FOLDER
                           )) for task in DATASET_LIST] for methods in [["pairwise_scaled_orthogonal_schaefer_300"]]]
     cmap, colors, positions, y_lims = plot_props(1)
@@ -482,7 +482,7 @@ def make_supplementary4_surface_volumic_figure():
     labels = ["Cortical Surface (fsaverage7)", "Volumetric (3mm)"]
     plt.yticks(positions, labels, fontsize=14, fontname="sans-serif")
     legends_points = []
-    for dataset, c in zip(DATASET_LIST, colors):
+    for dataset, c in zip([task], colors):
         legends_points.append(Line2D([0], [0], marker='o', ls="", color=c, label=DATASETS_LABELS[dataset],
                                      markerfacecolor=c, markersize=10))
     legends_points.reverse()
