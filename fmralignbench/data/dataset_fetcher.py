@@ -5,8 +5,8 @@ from nilearn.datasets.utils import _get_dataset_dir, _fetch_files
 from nilearn._utils.numpy_conversions import csv_to_array
 
 
-def _fetch_ibc_masks(participants, data_dir, url, resume, verbose):
-    """Helper function to fetch_ibc_fmri.
+def _fetch_ibc_masks(data_dir, url, resume, verbose):
+    """Helper function to fetch_ibc.
 
     This function helps in downloading masks for use with IBC
     functional alignment and inter-subject decoding.
@@ -66,8 +66,69 @@ def _fetch_ibc_masks(participants, data_dir, url, resume, verbose):
     return derivatives_dir
 
 
+def _fetch_ibc_contrasts(data_dir, url, resume, verbose):
+    """Helper function to fetch_ibc.
+
+    This function helps in downloading contrasts for use in visualizing
+    the effects of functional alignment transformations.
+
+    The files are downloaded from Open Science Framework (OSF).
+
+    Parameters
+    ----------
+    data_dir: str
+        Path of the data directory. Used to force data storage in a specified
+        location. If None is given, data are stored in home directory.
+
+    url: str, optional
+        Override download URL. Used for test only (or if you setup a mirror of
+        the data). Default: None
+
+    resume: bool, optional (default True)
+        Whether to resume download of a partly-downloaded file.
+
+    verbose: int
+        Defines the level of verbosity of the output.
+
+    Returns
+    -------
+    func: list of str (Nifti files)
+        Paths to functional MRI data (4D) for each subject.
+    """
+    if url is None:
+        # Download from the relevant OSF project, using hashes generated
+        # from the OSF API. Note the trailing slash. For more info, see:
+        # https://gist.github.com/emdupre/3cb4d564511d495ea6bf89c6a577da74
+        url = 'https://osf.io/download/{}/'
+
+    # The gzip contains unique download keys per Nifti file and CSV
+    # pre-extracted from OSF. Required for downloading files.
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    dtype = [('filename', 'U12'), ('uid', 'U24')]
+    names = ['filename', 'uid']
+    # csv file contains download information
+    osf_data = csv_to_array(os.path.join(package_directory, "ibc_contrasts.csv"),
+                            skip_header=True, dtype=dtype, names=names)
+
+    derivatives_dir = Path(data_dir, 'ibc_contrasts')
+
+    for this_osf_id in osf_data:
+
+        # Download mask
+        mask_url = url.format(this_osf_id['uid'][0])
+        mask_target = Path(derivatives_dir, this_osf_id['filename'][0])
+        mask_file = [(mask_target,
+                      mask_url,
+                      {'move': mask_target})]
+        path_to_mask = _fetch_files(data_dir, mask_file,
+                                    verbose=verbose)[0]
+        align.append(path_to_mask)
+
+    return derivatives_dir
+
+
 def _fetch_ibc_alignment(participants, data_dir, url, resume, verbose):
-    """Helper function to fetch_ibc_fmri.
+    """Helper function to fetch_ibc.
 
     This function helps in downloading functional MRI data in Nifti format
     and its corresponding CSVs each subject for functional alignment and
@@ -137,7 +198,7 @@ def _fetch_ibc_alignment(participants, data_dir, url, resume, verbose):
 
 
 def _fetch_rsvp_trial(participants, data_dir, url, resume, verbose):
-    """Helper function to fetch_ibc_fmri.
+    """Helper function to fetch_ibc.
 
     This function helps in downloading functional MRI data in Nifti format
     and its corresponding CSVs each subject for functional alignment and
@@ -238,7 +299,7 @@ def _fetch_rsvp_trial(participants, data_dir, url, resume, verbose):
 
 
 def _fetch_ibc_tonotopy(participants, data_dir, url, resume, verbose):
-    """Helper function to fetch_ibc_fmri.
+    """Helper function to fetch_ibc.
 
     This function helps in downloading functional MRI data in Nifti format
     and its corresponding CSVs each subject for functional alignment and
@@ -338,7 +399,7 @@ def _fetch_ibc_tonotopy(participants, data_dir, url, resume, verbose):
     return derivatives_dir
 
 
-def fetch_ibc(data_dir=None, resume=True, verbose=1):
+def fetch_ibc(participants='all', data_dir=None, resume=True, verbose=1):
     """Fetch the Individual Brain Charting (IBC) data.
 
     The data is downsampled to 3mm isotropic resolution. Please see
@@ -348,6 +409,8 @@ def fetch_ibc(data_dir=None, resume=True, verbose=1):
 
     Parameters
     ----------
+    participants: str or list, optional (default 'all')
+        Which participants to fetch. By default all are fetched.
     data_dir: str, optional (default None)
         Path of the data directory. Used to force data storage in a specified
         location. If None, data are stored in home directory.
@@ -367,38 +430,57 @@ def fetch_ibc(data_dir=None, resume=True, verbose=1):
     Notes
     -----
     The original data is downloaded from the OpenNeuro data portal:
-    http://fcon_1000.projects.nitrc.org/indi/hbn_ssi/
+    https://openneuro.org/datasets/ds002685/versions/1.3.0
 
-    This fetcher downloads downsampled data that are available on Open
-    Science Framework (OSF): https://osf.io/6ysra/files/
-
-    Pre- and post-processing details for this dataset are made available
-    here: https://osf.io/28qwv/wiki/
+    This fetcher downloads preprocessed and downsampled data that are available
+    on Open Science Framework (OSF): https://osf.io/6ysra/files/
 
     References
     ----------
     Please cite this paper if you are using this dataset:
 
-    O'Connor D, Potler NV, Kovacs M, Xu T, Ai L, Pellman J, Vanderwal T,
-    Parra LC, Cohen S, Ghosh S, Escalera J, Grant-Villegas N, Osman Y, Bui A,
-    Craddock RC, Milham MP (2017). The Healthy Brain Network Serial Scanning
-    Initiative: a resource for evaluating inter-individual differences and
-    their reliabilities across scan conditions and sessions.
-    GigaScience, 6(2): 1-14
-    https://academic.oup.com/gigascience/article/6/2/giw011/2865212
+    Pinho, A. L., Amadon, A., Gauthier, B., Clairis, N., Knops, A., Genon, S.,
+    ... & Thirion, B. (2020).
+    Individual Brain Charting dataset extension, second release of
+    high-resolution fMRI data for cognitive mapping. Scientific Data, 7(1), 1-16.
+    https://www.nature.com/articles/s41597-020-00670-4
     """
 
     dataset_name = "ibc"
     data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir, verbose=1)
 
-    # Participants data
-    brain_mask = _fetch_hbnssi_brain_mask(data_dir=data_dir, url=None,
-                                          verbose=verbose)
+    if participants == 'all':
+        rsvp_participants = [
+            'sub-01.nii.gz', 'sub-04.nii.gz', 'sub-05.nii.gz', 'sub-06.nii.gz',
+            'sub-07.nii.gz', 'sub-09.nii.gz', 'sub-11.nii.gz', 'sub-12.nii.gz',
+            'sub-13.nii.gz', 'sub-14.nii.gz'
+        ]
+        tonotopy_participants = [
+            'sub-04.nii.gz', 'sub-05.nii.gz', 'sub-06.nii.gz', 'sub-07.nii.gz',
+            'sub-09.nii.gz', 'sub-11.nii.gz', 'sub-12.nii.gz', 'sub-13.nii.gz',
+            'sub-14.nii.gz'
+        ]
+    else:
+        rsvp_participants = participants
+        tonotopy_participants = participants
 
-    derivatives_dir = _fetch_hbnssi_functional(
-        participants, data_dir=data_dir, url=None,
+    # Group-level data
+    masks = _fetch_ibc_masks(data_dir=data_dir, url=None,
+                             verbose=verbose)
+    contrasts = _fetch_ibc_contrasts(data_dir=data_dir, url=None,
+                                     verbose=verbose)
+
+    # Participant-level data
+    align_dir = _fetch_ibc_alignment(
+        rsvp_participants, data_dir=data_dir, url=None,
+        resume=resume, verbose=verbose)
+    tonotopy_dir = _fetch_ibc_tonotopy(
+        tonotopy_participants, data_dir=data_dir, url=None,
+        resume=resume, verbose=verbose)
+    rsvp_dir = _fetch_rsvp_trial(
+        rsvp_participants, data_dir=data_dir, url=None,
         resume=resume, verbose=verbose)
 
-    return Bunch(subjects=participants['sid'], mask=brain_mask,
-                 task_dir=derivatives_dir, out_dir=out_dir,
-                 mask_cache=mask_cache)
+    return Bunch(mask=mask,
+                 contrasts=contrast, align_dir=align_dir,
+                 rsvp_dir=rsvp_dir, tonotopy_dir=tonotopy_dir)
