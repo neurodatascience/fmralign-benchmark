@@ -1,0 +1,4 @@
+filename,uid
+left_language_mask_3mm.nii.gz,5fc7d0714269db010c1c62ca
+gm_mask_3mm.nii.gz,5fc7d071aa60b80110898036
+audio_mask_resampled_3mm.nii.gz,5fc7d0734269db011e1c8eec
