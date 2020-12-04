@@ -562,6 +562,69 @@ def _fetch_ibc_surf_alignment(participants, data_dir, url, resume, verbose):
     return derivatives_dir
 
 
+def _fetch_ibc_surf_masks(data_dir, url, resume, verbose):
+    """Helper function to fetch_ibc.
+
+    This function helps in downloading brain and ROI masks for use with IBC
+    functional alignment and inter-subject decoding.
+
+    The files are downloaded from Open Science Framework (OSF).
+
+    Parameters
+    ----------
+    data_dir: str
+        Path of the data directory. Used to force data storage in a specified
+        location. If None is given, data are stored in home directory.
+
+    url: str, optional
+        Override download URL. Used for test only (or if you setup a mirror of
+        the data). Default: None
+
+    resume: bool, optional (default True)
+        Whether to resume download of a partly-downloaded file.
+
+    verbose: int
+        Defines the level of verbosity of the output.
+
+    Returns
+    -------
+    derivatives_dir: str
+        Path on disk to the IBC masks data directory.
+    """
+    if url is None:
+        # Download from the relevant OSF project, using hashes generated
+        # from the OSF API. Note the trailing slash. For more info, see:
+        # https://gist.github.com/emdupre/3cb4d564511d495ea6bf89c6a577da74
+        url = 'https://osf.io/download/{}/'
+
+    # The gzip contains unique download keys per Nifti file and CSV
+    # pre-extracted from OSF. Required for downloading files.
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    dtype = [('filename', 'U52'), ('uid', 'U24')]
+    names = ['filename', 'uid']
+    # csv file contains download information
+    osf_data = csv_to_array(os.path.join(package_directory,
+                                         "ibc_surf_masks.csv"),
+                            skip_header=True, dtype=dtype, names=names)
+
+    derivatives_dir = Path(data_dir, 'masks')
+    masks = []
+
+    for this_osf_id in osf_data:
+
+        # Download mask
+        mask_url = url.format(this_osf_id['uid'])
+        mask_target = Path(derivatives_dir, this_osf_id['filename'])
+        mask_file = [(mask_target,
+                      mask_url,
+                      {'move': mask_target})]
+        path_to_mask = _fetch_files(data_dir, mask_file,
+                                    verbose=verbose)[0]
+        masks.append(path_to_mask)
+
+    return derivatives_dir
+
+
 def _fetch_rsvp_trial_surf(participants, data_dir, url, resume, verbose):
     """Helper function to fetch_ibc.
 
@@ -740,6 +803,8 @@ def fetch_ibc_surf(participants='all', data_dir=None, resume=True, verbose=1):
     else:
         rsvp_participants = participants
 
+    masks = _fetch_ibc_surf_masks(data_dir=data_dir, url=None,
+                                  resume=resume, verbose=verbose)
     # Participant-level data
     align_dir = _fetch_ibc_surf_alignment(
         rsvp_participants, data_dir=data_dir, url=None,
@@ -748,4 +813,4 @@ def fetch_ibc_surf(participants='all', data_dir=None, resume=True, verbose=1):
         rsvp_participants, data_dir=data_dir, url=None,
         resume=resume, verbose=verbose)
 
-    return Bunch(align_dir=align_dir, rsvp_dir=rsvp_dir)
+    return Bunch(mask_dir=masks, align_dir=align_dir, rsvp_dir=rsvp_dir)
