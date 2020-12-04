@@ -46,7 +46,7 @@ Then you can install fmralign-benchmark by running the following commands::
 
     git clone https://github.com/thomasbazeille/fmralign-benchmark-mockup
     cd fmralign-benchmark-mockup
-    pip install .
+    pip install -e .
 
 To reproduce results from the Searchlight Hyperalignment method, you'll also
 need to install ``PyMVPA``.
