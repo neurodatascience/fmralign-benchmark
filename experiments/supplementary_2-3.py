@@ -2,6 +2,7 @@ import itertools
 from joblib import Parallel, delayed
 from fmralignbench.utils import WHOLEBRAIN_DATASETS, inter_subject_align_decode
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
+from fmralignbench.fetchers import fetch_ibc
 from fmralignbench.plot_utils import make_smoothing_figure
 import warnings
 warnings.filterwarnings(action='once')
@@ -17,6 +18,8 @@ else:
 smoothing_fwhms = [5, 10, 15, 20, 25, 30]
 shuffled_parameters = list(itertools.product(
     WHOLEBRAIN_DATASETS, smoothing_fwhms))
+
+data = fetch_ibc(data_dir=ROOT_FOLDER)
 
 Parallel(n_jobs=n_pipes)(delayed(inter_subject_align_decode)("smoothing", dataset_params, None,
                                                              ROOT_FOLDER, n_pieces=None, smoothing_fwhm=smoothing_fwhm, n_jobs=n_jobs) for dataset_params, smoothing_fwhm in shuffled_parameters)
