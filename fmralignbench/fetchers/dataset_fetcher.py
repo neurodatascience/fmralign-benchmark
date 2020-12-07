@@ -450,8 +450,7 @@ def fetch_ibc(participants='all', data_dir=None, resume=True, verbose=1):
     https://www.nature.com/articles/s41597-020-00670-4
     """
 
-    dataset_name = "ibc"
-    data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir, verbose=1)
+    data_dir = _get_dataset_dir('', data_dir=data_dir, verbose=1)
 
     if participants == 'all':
         rsvp_participants = {'sid' : [
@@ -791,8 +790,7 @@ def fetch_ibc_surf(participants='all', data_dir=None, resume=True, verbose=1):
     https://www.nature.com/articles/s41597-020-00670-4
     """
 
-    dataset_name = "ibc"
-    data_dir = _get_dataset_dir(dataset_name, data_dir=data_dir, verbose=1)
+    data_dir = _get_dataset_dir('', data_dir=data_dir, verbose=1)
 
     if participants == 'all':
         rsvp_participants = {'sid': [
