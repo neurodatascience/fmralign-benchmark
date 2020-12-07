@@ -4,6 +4,7 @@ from joblib import Parallel, delayed
 from fmralignbench.utils import (
     WHOLEBRAIN_DATASETS, ROI_DATASETS, inter_subject_align_decode, within_subject_decoding)
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
+from fmralignbench.fetchers import fetch_ibc
 from fmralignbench.plot_utils import make_bench_figure, make_within_subject_decoding_figure, make_supplementary1_roi_minus_fullbrain_figure
 warnings.filterwarnings(action='once')
 
@@ -18,6 +19,8 @@ else:
     n_pipes = 1
     n_jobs = N_JOBS
 ###### EXPERIMENT 1 #######
+
+data = fetch_ibc(data_dir=ROOT_FOLDER)
 
 # Inter-subject results
 experiment_parameters = list(itertools.product(

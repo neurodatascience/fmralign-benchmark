@@ -9,9 +9,12 @@ from nilearn.surface import load_surf_data
 from fmralignbench.utils import (WHOLEBRAIN_DATASETS, inter_subject_align_decode, check_input_method, try_methods_decoding, find_method_label, experiments_variables,
                                  fetch_align_decode_data)
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
+from fmralignbench.fetchers import fetch_ibc_surf
 from fmralignbench.plot_utils import make_supplementary4_surface_volumic_figure
 
 warnings.filterwarnings(action='once')
+
+surf_data = fetch_ibc_surf(data_dir=ROOT_FOLDER)
 
 for input_method in ["anat_inter_subject", "pairwise_scaled_orthogonal"]:
     param_set = WHOLEBRAIN_DATASETS[0]

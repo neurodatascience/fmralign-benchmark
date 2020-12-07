@@ -586,14 +586,9 @@ def fetch_align_decode_data(task, subjects, data_dir,
             train_decode_labels.append(
                 decoding_conditions[np.isin(n_subj, (lo), invert=True)])
             # testing decoding data splits, labels
-            if task == 'ibc_tom':
-                LOs_decode.append(decoding_subjects[lo])
-                LOs_decode_labels.append(decoding_conditions[lo])
-                LOs_align.append(paths_align[lo])
-            else:  # for all other IBC tasks, include in sub-list
-                LOs_decode.append([decoding_subjects[lo]])
-                LOs_decode_labels.append([decoding_conditions[lo]])
-                LOs_align.append([paths_align[lo]])
+            LOs_decode.append([decoding_subjects[lo]])
+            LOs_decode_labels.append([decoding_conditions[lo]])
+            LOs_align.append([paths_align[lo]])
 
     train = DataSplit(
         x=train_decode, y=train_decode_labels, alignment=train_align)

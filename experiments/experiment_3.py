@@ -12,8 +12,11 @@ from fmralign.pairwise_alignment import PairwiseAlignment
 from fmralign.alignment_methods import OptimalTransportAlignment
 from fmralignbench.fastsrm import FastSRM
 from fmralignbench.utils import (fetch_resample_basc, _check_srm_params,
-                                 find_method_label, make_coordinates_grid, check_input_method, fetch_resample_schaeffer, mask_gm)
+                                 find_method_label, make_coordinates_grid,
+                                 check_input_method, fetch_resample_schaeffer,
+                                 mask_gm)
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
+from fmralignbench.fetchers import fetch_ibc
 
 warnings.filterwarnings(action='once')
 
@@ -190,6 +193,7 @@ def resize_surf_im(ax, zoom, offset):
     pass
 
 
+data = fetch_ibc(data_dir=ROOT_FOLDER)
 contrasts = ["speech-silence", "voice-silence",
              "sentence-word", "word-consonant-string"
              ]
