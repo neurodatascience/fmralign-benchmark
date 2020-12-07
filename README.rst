@@ -113,14 +113,14 @@ Experiment 2
 Experiment 3
 ---------------
 
-.. image:: figures/experiment3_qualitative.png
+.. image:: figures/experiment3_qualitative_f7.png
    :width: 200
 
 
 Supplementary results
 ---------------
 
-|pic1| |pic2|
+|pic1| |pic2| |pic3|
 
 .. image:: figures/supplementary_3.png
    :width: 200
@@ -129,4 +129,7 @@ Supplementary results
    :width: 45%
 
 .. |pic2| image:: figures/supplementary_1_roi_minus_fullbrain.png
+   :width: 45%
+
+.. |pic3| image:: figures/supplementary_4_surfacic_vs_volumetric.png
    :width: 45%
