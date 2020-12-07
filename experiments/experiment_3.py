@@ -175,7 +175,7 @@ def run_save_align_for_tasks_and_contrasts(subjects, method, pairwise_method, lo
 def plot_surf_im(path, ax, fsaverage=fetch_surf_fsaverage(), colorbar=False, threshold=0, vmax=8, hemi="left", view="lateral"):
     texture = surface.vol_to_surf(path, fsaverage.pial_left)
     display = plotting.plot_surf_stat_map(fsaverage.pial_left, texture,  hemi=hemi, colorbar=colorbar,
-                                          threshold=threshold, vmax=vmax, bg_map=fsaverage.sulc_left, axes=axes[i, j], view=view)
+                                          threshold=threshold, vmax=vmax, bg_map=fsaverage.sulc_left, axes=ax, view=view)
     pass
 
 
@@ -201,13 +201,13 @@ alignment_data = "53"
 target_ind = 0
 target = subjects[target_ind]
 methods = ["pairwise_scaled_orthogonal", "pairwise_ot_e-1", "srm", "HA"]
-cached_methods = ["anat", "pairwise_ot_e-1",
-                  "pairwise_scaled_orthogonal", "HArad_5_sparse_3", "srm_50_basc_444"]
+cached_methods = ["anat", "srm_50_basc_444", "pairwise_ot_e-1",
+                  "pairwise_scaled_orthogonal", "HArad_5_sparse_3"]
 contrast_dir = opj(ROOT_FOLDER, "alignment")
 u = 0.25
 
 # First part of the pipeline : Create and save align estimators and aligned contrasts
-
+cached_methods
 
 for input_method in methods:
     method, pairwise_method, local_align_method = check_input_method(
@@ -246,11 +246,12 @@ for i, contrast in enumerate(contrasts):
         conj_img = masker.inverse_transform(conj)
         conj_img.to_filename(path)
 # %%
-fsaverage = fetch_surf_fsaverage("fsaverage5")
+fsaverage = fetch_surf_fsaverage("fsaverage")
 fig, axes = plt.subplots(nrows=len(cached_methods) + 1, ncols=len(
     contrasts), subplot_kw={'projection': '3d'}, figsize=(6 * len(
         contrasts), 4 * (len(cached_methods) + 1)), constrained_layout=True)
-
+colorbar = False
+vmax_override = 0
 for j, contrast in enumerate(contrasts):
 
     cut_coords = None
@@ -265,76 +266,70 @@ for j, contrast in enumerate(contrasts):
         hemi = "left"
         view = "lateral"
 
-    for i, method in enumerate(cached_methods):
-        if method == "anat":
-            target_space = "MNI"
-        else:
-            target_space = target
+    # PLOT TARGET FIRST
+    if j < 2:
+        vmax = 5
+        threshold = vmax / 3
+    elif j >= 2:
+        vmax = 11
+        threshold = vmax / 3
 
-        if "HA" in method:
-            if j == 1:
-                vmax = 30
-            elif j == 0:
-                vmax = 70
+    if vmax_override != 0:
+        threshold = None
+        vmax = vmax_override
+    gt_ = contrasts_original[j][target_ind]
+
+    plot_surf_im(gt_, axes[0, j], fsaverage=fsaverage,
+                 colorbar=colorbar, threshold=threshold, vmax=vmax, hemi=hemi, view=view)
+    resize_surf_im(axes[0, j], zoom, offset)
+
+    for i, method in enumerate(cached_methods):
+
+        target_space = target
+        threshold = 0
+        if "anat" in method:
+            target_space = "MNI"
+            if j < 2:
+                vmax = 5
+            elif j >= 2:
+                vmax = 9
+        elif "ot_" in method:
+            if j < 2:
+                vmax = 4
+            elif j >= 2:
+                vmax = 9
+        elif "ortho" in method:
+            if j < 2:
+                vmax = 4
+            elif j >= 2:
+                vmax = 9
+
+        elif "HA" in method:
+            if j < 2:
+                vmax = 25
             elif j >= 2:
                 vmax = 70
-            else:
-                vmax = 40
 
         elif "srm" in method:
-            if j == 1:
+            if j < 2:
                 vmax = 3
-            elif j == 0:
-                vmax = 6
             elif j >= 2:
-                vmax = 6
-            else:
-                vmax = 4
-        else:
-            if j == 1:
-                vmax = 4
-            elif j == 0:
                 vmax = 7
-            elif j >= 2:
-                vmax = 8
+        if threshold == 0:
+            threshold = vmax / 3
+        if vmax_override != 0:
+            threshold = None
+            vmax = vmax_override
 
-        colorbar = False
         path = os.path.join(contrast_dir, '{}_group_u_{}_with_{}_to_{}_on_{}.nii.gz'.format(
             contrast, u, method, target_space, alignment_data))
-        threshold = vmax / 4
-        plot_surf_im(path, axes[i, j], fsaverage=fsaverage,
+
+        plot_surf_im(path, axes[i + 1, j], fsaverage=fsaverage,
                      colorbar=colorbar, threshold=threshold, vmax=vmax, hemi=hemi, view=view)
-        resize_surf_im(axes[i, j], zoom, offset)
-
-    if j == 1:
-        vmax = 7
-    elif j == 0:
-        vmax = 13
-    elif j >= 2:
-        vmax = 10
-    threshold = vmax / 4
-    gt_ = contrasts_original[j][target_ind]
-    i = len(cached_methods)
-    plot_surf_im(gt_, axes[i, j], fsaverage=fsaverage,
-                 colorbar=colorbar, threshold=threshold, vmax=vmax, hemi=hemi, view=view)
-    resize_surf_im(axes[i, j], zoom, offset)
-
-    """ No labelling for now, hard to do in 3D
-    vertical_labs = ["Anatomical", "Piecewise\nOptimal\nTransport",
-                     "Piecewise\nProcrustes", "Searchlight\nHyperalignment", "Shared\nResponse\nModel", "Target"]
-
-    for i, lab in enumerate(vertical_labs):
-        # plt.text(-.25, 1,.5 "bla", "bla", "bla", fontsize=12)
-        plt.text(-.25, (1 - i / len(vertical_labs)), .5, lab, fontsize=40)
-
-    for i, cont in enumerate(contrasts):
-        formatted_lab = cont.replace(" ", "\n")
-        print(formatted_lab)
-        plt.text(1.1, (i / len(vertical_labs)), .5, formatted_lab, fontsize=40)
-    """
+        resize_surf_im(axes[i + 1, j], zoom, offset)
 
     plt.tight_layout()
 if not os.path.isdir(os.path.join(ROOT_FOLDER, "figures")):
     os.mkdir(os.path.join(ROOT_FOLDER, "figures"))
 fig.savefig(os.path.join(ROOT_FOLDER, "figures",
-                         "experiment3_qualitative.png"), bbox_inches='tight')
+                         "experiment3_qualitative_f7.png"), bbox_inches='tight')

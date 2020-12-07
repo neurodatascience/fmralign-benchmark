@@ -31,3 +31,4 @@ shuffled_parameters = list(itertools.product(
 
 Parallel(n_jobs=n_pipes)(delayed(inter_subject_align_decode)("pairwise_scaled_orthogonal", dataset_params, clustering,
                                                              ROOT_FOLDER, n_pieces=scale, n_jobs=n_jobs) for dataset_params, clustering, scale in shuffled_parameters)
+cd
