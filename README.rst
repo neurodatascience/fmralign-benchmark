@@ -12,7 +12,7 @@ This repository contains code for reproducing results from the recent paper:
 
 | *An empirical evaluation of functional alignment using inter-subject decoding.*
 | Thomas Bazeille*, Elizabeth DuPre*, Jean-Baptiste Poline, & Bertrand Thirion.
-| doi: 10.1101/2020.XX.XX.XXXXXX
+| doi: 10.1101/2020.12.07.415000
 |
 
 This module provides:
