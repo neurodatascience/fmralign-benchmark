@@ -66,7 +66,9 @@ def _check_srm_params(srm_components, srm_atlas, trains_align, trains_decode):
 def fetch_resample_basc(mask, scale="444"):
     from nilearn.datasets import fetch_atlas_basc_multiscale_2015
     from nilearn.image import resample_to_img
-    basc = fetch_atlas_basc_multiscale_2015()['scale{}'.format(scale)]
+    basc = fetch_atlas_basc_multiscale_2015(
+        data_dir='/home/emdupre/scratch'
+    )['scale{}'.format(scale)]
     resampled_basc = resample_to_img(basc, mask, interpolation='nearest')
     return resampled_basc
 
@@ -636,6 +638,7 @@ def fetch_resample_schaeffer(mask, scale="444"):
     from nilearn.datasets import fetch_atlas_schaefer_2018
     from nilearn.image import resample_to_img
     atlas = fetch_atlas_schaefer_2018(
+        data_dir='/home/emdupre/scratch',
         n_rois=scale, resolution_mm=2)["maps"]
     resampled_atlas = resample_to_img(
         atlas, mask, interpolation='nearest')
