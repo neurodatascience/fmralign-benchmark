@@ -1,6 +1,7 @@
 import os
 import csv
 import time
+import pickle
 import numpy as np
 import pandas as pd
 from os.path import join as opj
@@ -297,6 +298,10 @@ def try_methods_decoding(method, subjects, train, test, pairwise_method,
         fit_timings = []
         overhead_timings = []
         i = 0
+
+        with open(f'{method_path}_files.pkl', 'wb') as f:
+            pickle.dump([train, test], f)
+
         for (train_align, train_decode, train_decode_labels,
              LO_align, LO_decode, LO_decode_labels) in zip(
                  train.alignment, train.x, train.y,
@@ -340,6 +345,9 @@ def try_methods_decoding(method, subjects, train, test, pairwise_method,
                         srm_atlas=srm_atlas, srm_components=srm_components,
                         ha_radius=ha_radius, ha_sparse_radius=ha_sparse_radius,
                         smoothing_fwhm=smoothing_fwhm)
+
+                    with open(f'{method_path}_fold{i}_aligned.pkl', 'wb') as f:
+                        pickle.dump([align_decoding_train, aligned_target], f)
 
                 fold_scores.append(decode(
                     pipeline, align_decoding_train,
