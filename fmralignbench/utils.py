@@ -1,7 +1,6 @@
 import os
 import csv
 import time
-import pickle
 import numpy as np
 import pandas as pd
 from os.path import join as opj
@@ -67,9 +66,7 @@ def _check_srm_params(srm_components, srm_atlas, trains_align, trains_decode):
 def fetch_resample_basc(mask, scale="444"):
     from nilearn.datasets import fetch_atlas_basc_multiscale_2015
     from nilearn.image import resample_to_img
-    basc = fetch_atlas_basc_multiscale_2015(
-        data_dir='/home/emdupre/scratch'
-    )['scale{}'.format(scale)]
+    basc = fetch_atlas_basc_multiscale_2015()['scale{}'.format(scale)]
     resampled_basc = resample_to_img(basc, mask, interpolation='nearest')
     return resampled_basc
 
@@ -173,6 +170,12 @@ def align_one_target(sources_train, sources_test, target_train, target_test, met
                     source_align = PairwiseAlignment(
                         alignment_method=pairwise_method, clustering=clustering,
                         n_pieces=n_pieces, mask=masker, n_jobs=n_jobs)
+
+                print('Source_train is {}'.format(source_train))
+                print('Source_test is {}'.format(source_test))
+                print('Target_train is {}'.format(target_train))
+                print('Target_test is {}'.format(target_test))
+
                 source_align.fit(source_train, target_train)
                 aligned_sources_test.append(
                     source_align.transform(source_test))
@@ -299,9 +302,6 @@ def try_methods_decoding(method, subjects, train, test, pairwise_method,
         overhead_timings = []
         i = 0
 
-        with open(f'{method_path}_files.pkl', 'wb') as f:
-            pickle.dump([train, test], f)
-
         for (train_align, train_decode, train_decode_labels,
              LO_align, LO_decode, LO_decode_labels) in zip(
                  train.alignment, train.x, train.y,
@@ -345,9 +345,6 @@ def try_methods_decoding(method, subjects, train, test, pairwise_method,
                         srm_atlas=srm_atlas, srm_components=srm_components,
                         ha_radius=ha_radius, ha_sparse_radius=ha_sparse_radius,
                         smoothing_fwhm=smoothing_fwhm)
-
-                    with open(f'{method_path}_fold{i}_aligned.pkl', 'wb') as f:
-                        pickle.dump([align_decoding_train, aligned_target], f)
 
                 fold_scores.append(decode(
                     pipeline, align_decoding_train,
@@ -479,9 +476,9 @@ def experiments_variables(task, surface="", root_dir='/'):
         mask = opj(
             root_dir,
             "tpl-MNI152NLin2009cAsym_res-3mm_label-GM_desc-thr02_probseg.nii.gz")
-        task_dir = opj(root_dir, "cneuro_wm", "3mm")
-        out_dir = opj(root_dir, "cneuro_wm", "decoding_fmralignbench")
-        mask_cache = opj(root_dir, "cneuro_wm", "mask_cache")
+        task_dir = opj(root_dir, "cneuro_wm_5mm", "3mm")
+        out_dir = opj(root_dir, "cneuro_wm_5mm", "decoding_fmralignbench")
+        mask_cache = opj(root_dir, "cneuro_wm_5mm", "mask_cache")
 
     else:
         err_msg = ("Unrecognized decoding task. Please provide a " +
@@ -611,8 +608,8 @@ def fetch_align_decode_data(task, subjects, data_dir,
 
     elif task == "cneuromod":
         life = opj(
-            root_dir, 'alignment_data',
-            '{}_task-life_run-1_space-MNI152NLin2009cAsym_desc-postproc_bold.nii.gz')
+            root_dir, 'alignment_data_5mm',
+            '{}_task-life_run-1_space-MNI152NLin2009cAsym_desc-fwhm5_bold.nii.gz')
         paths_align = np.asarray([life.format(sub)
                                   for sub in subjects])
         n_subj = np.arange(len(subjects))
@@ -631,7 +628,6 @@ def fetch_align_decode_data(task, subjects, data_dir,
             LOs_align.append([paths_align[lo]])
             LOs_decode.append([decoding_subjects[lo]])
             LOs_decode_labels.append([decoding_conditions[lo]])
-            LOs_align.append([paths_align[lo]])
 
     train = DataSplit(
         x=train_decode, y=train_decode_labels, alignment=train_align)
@@ -646,7 +642,6 @@ def fetch_resample_schaeffer(mask, scale="444"):
     from nilearn.datasets import fetch_atlas_schaefer_2018
     from nilearn.image import resample_to_img
     atlas = fetch_atlas_schaefer_2018(
-        data_dir='/home/emdupre/scratch',
         n_rois=scale, resolution_mm=2)["maps"]
     resampled_atlas = resample_to_img(
         atlas, mask, interpolation='nearest')
