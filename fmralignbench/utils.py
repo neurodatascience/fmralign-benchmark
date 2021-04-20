@@ -171,11 +171,6 @@ def align_one_target(sources_train, sources_test, target_train, target_test, met
                         alignment_method=pairwise_method, clustering=clustering,
                         n_pieces=n_pieces, mask=masker, n_jobs=n_jobs)
 
-                print('Source_train is {}'.format(source_train))
-                print('Source_test is {}'.format(source_test))
-                print('Target_train is {}'.format(target_train))
-                print('Target_test is {}'.format(target_test))
-
                 source_align.fit(source_train, target_train)
                 aligned_sources_test.append(
                     source_align.transform(source_test))
