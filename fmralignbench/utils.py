@@ -3,7 +3,6 @@ import csv
 import time
 import numpy as np
 import pandas as pd
-import os
 from os.path import join as opj
 from collections import namedtuple
 
@@ -23,16 +22,17 @@ from fmralignbench.intra_subject_alignment import IntraSubjectAlignment
 from fmralignbench.fastsrm import FastSRM
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 
-mask_gm = os.path.join(ROOT_FOLDER, 'masks', 'gm_mask_3mm.nii.gz')
+mask_gm = os.path.join(
+    ROOT_FOLDER,
+    'tpl-MNI152NLin2009cAsym_res-3mm_label-GM_desc-thr02_probseg.nii.gz')
 mask_audio_3mm = os.path.join(
     ROOT_FOLDER, 'masks', 'audio_mask_resampled_3mm.nii.gz')
 language_mask_3mm = os.path.join(
     ROOT_FOLDER, 'masks', 'left_language_mask_3mm.nii.gz')
 
 
-WHOLEBRAIN_DATASETS = [{"decoding_task": "ibc_rsvp", "alignment_data_label": "53_tasks",
-                        "roi_code": "fullbrain", "mask": mask_gm},
-                       {"decoding_task": "ibc_tonotopy_cond", "alignment_data_label": "53_tasks",
+WHOLEBRAIN_DATASETS = [{"decoding_task": "cneuromod",
+                        "alignment_data_label": None,
                         "roi_code": "fullbrain", "mask": mask_gm}]
 
 ROI_DATASETS = [{"decoding_task": "ibc_rsvp", "alignment_data_label": "53_tasks",
@@ -170,6 +170,7 @@ def align_one_target(sources_train, sources_test, target_train, target_test, met
                     source_align = PairwiseAlignment(
                         alignment_method=pairwise_method, clustering=clustering,
                         n_pieces=n_pieces, mask=masker, n_jobs=n_jobs)
+
                 source_align.fit(source_train, target_train)
                 aligned_sources_test.append(
                     source_align.transform(source_test))
@@ -295,6 +296,7 @@ def try_methods_decoding(method, subjects, train, test, pairwise_method,
         fit_timings = []
         overhead_timings = []
         i = 0
+
         for (train_align, train_decode, train_decode_labels,
              LO_align, LO_decode, LO_decode_labels) in zip(
                  train.alignment, train.x, train.y,
@@ -464,6 +466,15 @@ def experiments_variables(task, surface="", root_dir='/'):
         mask_cache = opj(root_dir, 'ibc_tonotopy_cond', 'mask_cache')
         # audio_mask_3mm = opj(root_dir,"ibc/audio_mask_resampled_3mm.nii.gz")
 
+    elif task == "cneuromod":
+        subjects = ["sub-01", "sub-02", "sub-03", "sub-04", "sub-05", "sub-06"]
+        mask = opj(
+            root_dir,
+            "tpl-MNI152NLin2009cAsym_res-3mm_label-GM_desc-thr02_probseg.nii.gz")
+        task_dir = opj(root_dir, "cneuro_wm_5mm", "3mm")
+        out_dir = opj(root_dir, "cneuro_wm_5mm", "decoding_fmralignbench")
+        mask_cache = opj(root_dir, "cneuro_wm_5mm", "mask_cache")
+
     else:
         err_msg = ("Unrecognized decoding task. Please provide a " +
                    "recognized decoding task and try again.")
@@ -589,6 +600,29 @@ def fetch_align_decode_data(task, subjects, data_dir,
             LOs_decode.append([decoding_subjects[lo]])
             LOs_decode_labels.append([decoding_conditions[lo]])
             LOs_align.append([paths_align[lo]])
+
+    elif task == "cneuromod":
+        life = opj(
+            root_dir, 'alignment_data_5mm',
+            '{}_task-life_run-1_space-MNI152NLin2009cAsym_desc-fwhm5_bold.nii.gz')
+        paths_align = np.asarray([life.format(sub)
+                                  for sub in subjects])
+        n_subj = np.arange(len(subjects))
+        leave_outs = n_subj  # use LOO
+
+        for lo in leave_outs:
+            # training alignment data
+            train_align.append(
+                paths_align[np.isin(n_subj, (lo), invert=True)])
+            # training decoding data splits, labels
+            train_decode.append(
+                decoding_subjects[np.isin(n_subj, (lo), invert=True)])
+            train_decode_labels.append(
+                decoding_conditions[np.isin(n_subj, (lo), invert=True)])
+            # testing decoding data splits, labels
+            LOs_align.append([paths_align[lo]])
+            LOs_decode.append([decoding_subjects[lo]])
+            LOs_decode_labels.append([decoding_conditions[lo]])
 
     train = DataSplit(
         x=train_decode, y=train_decode_labels, alignment=train_align)
