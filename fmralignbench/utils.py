@@ -307,11 +307,6 @@ def try_methods_decoding(method, subjects, train, test, pairwise_method,
                  train.alignment, train.x, train.y,
                  test.alignment, test.x, test.y):
 
-            with open(f'{method_path}_fold{i}_files.pkl', 'wb') as f:
-                pickle.dump(
-                    [train_align, train_decode, train_decode_labels,
-                     LO_align, LO_decode, LO_decode_labels], f)
-
             print(" Fold {} : method {} : ".format(i, method_path))
 
             fold_scores, fold_fit_timings, fold_overhead_timings = [], 0, 0
