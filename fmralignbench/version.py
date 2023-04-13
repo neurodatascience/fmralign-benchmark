@@ -29,27 +29,27 @@ _BENCHMARK_INSTALL_MSG = 'See README for installation information.'
 #   in some meaningful order (more => less 'core').
 REQUIRED_MODULE_METADATA = (
     ('numpy', {
-        'min_version': '1.18',
+        'min_version': '1.16',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('scipy', {
-        'min_version': '1.4',
+        'min_version': '1.2',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('sklearn', {
         'pypi_name': 'scikit-learn',
-        'min_version': '0.22',
+        'min_version': '0.20',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('nibabel', {
-        'min_version': '3.1',
+        'min_version': '2.5',
         'required_at_installation': True,
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('nilearn', {
-        'min_version': '0.6',
+        'min_version': '0.5',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('matplotlib', {
-        'min_version': '3.1.1',
+        'min_version': '2.2.5',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('pandas', {
-        'min_version': '1.1',
+        'min_version': '0.24',
         'install_info': _BENCHMARK_INSTALL_MSG}),
     ('fmralign', {
         'min_version': '0.0.2a0',
