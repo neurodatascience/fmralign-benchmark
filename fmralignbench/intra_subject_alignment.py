@@ -1,3 +1,4 @@
+# *- encoding: utf-8 -*-
 """IntraSubjectAlignment class is a hack of fmralign pairwise_alignment to replicate Tavor 2016
 
 Care is needed, few changes but tricky ones :

@@ -1,2 +1,3 @@
-ROOT_FOLDER = '/storage/store2/work/tbazeill/neuroimage'
-N_JOBS = 15
+# *- encoding: utf-8 -*-
+ROOT_FOLDER = '/volatile/home/td273138/data/fmralignbenchmark'
+N_JOBS = 10

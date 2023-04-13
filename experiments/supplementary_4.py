@@ -1,3 +1,4 @@
+# *- encoding: utf-8 -*-
 """ File to replicate 3mm volumic results with fsaverage7 surfacic representation
 of the data. Only tested (and tractable) for "pairwise_scaled_orthogonal" method and on IBC RSVP decoding task
 """

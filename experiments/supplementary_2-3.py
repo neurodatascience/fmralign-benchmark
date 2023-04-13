@@ -1,3 +1,4 @@
+# *- encoding: utf-8 -*-
 import itertools
 from joblib import Parallel, delayed
 from fmralignbench.utils import WHOLEBRAIN_DATASETS, inter_subject_align_decode
