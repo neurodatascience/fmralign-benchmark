@@ -1,3 +1,4 @@
+# *- encoding: utf-8 -*-
 import copy
 from matplotlib.lines import Line2D
 from matplotlib import gridspec

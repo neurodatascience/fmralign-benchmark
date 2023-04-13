@@ -1,3 +1,4 @@
+# *- encoding: utf-8 -*-
 """Copied from private fastSRM repo by Hugo Richard"""
 """Fast Shared Response Model (FastSRM)
 The implementation is based on the following publications:
